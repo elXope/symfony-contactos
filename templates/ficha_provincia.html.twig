@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	provincia
+{% endblock %}
+{% block body %}
+
+	<h1>Ficha de provincia</h1>
+	{% if provincia %}
+		<dl>
+			<dt>
+				<strong>{{provincia.nombre}}</strong>
+			</dt>
+			<dd>
+				<strong>Número de contactos de esta provincia:
+				</strong>
+				{{numContactos}}
+			</dd>
+		</dl>
+	{% else %}
+		<p>
+			<strong>No existe ninguna provincia con ese nombre.</strong>
+		</p>
+	{% endif %}
+{% endblock %}

@@ -47,6 +47,21 @@ class ContactoRepository extends ServiceEntityRepository
         return $qb->execute();
     }
 
+    /**
+    * @return Contacto[] Returns an array of Contacto objects
+    */
+   public function findByProvincia($value): array
+   {
+       return $this->createQueryBuilder('c')
+           ->andWhere('c.provincia = :val')
+           ->setParameter('val', $value)
+           ->orderBy('c.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    /**
 //     * @return Contacto[] Returns an array of Contacto objects
 //     */

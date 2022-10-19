@@ -4,13 +4,11 @@ namespace App\Controller;
 use App\Entity\Contacto;
 use App\Entity\Provincia;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\{TextType, EmailType, SubmitType};
-
+use App\Form\ContactoType;
 
 class ContactController extends AbstractController
 {
@@ -151,7 +149,7 @@ class ContactController extends AbstractController
     #[Route("/contacto/nuevo", name:"nuevo_contacto")]
     public function nuevo(ManagerRegistry $doctrine, Request $request): Response {
         $contacto = new Contacto();
-        $formulario = $this->formulario($contacto);
+        $formulario = $this->createForm(ContactoType::class, $contacto);
         $formulario->handleRequest($request);
 
         if ($formulario->isSubmitted() && $formulario->isValid()) {
@@ -176,7 +174,7 @@ class ContactController extends AbstractController
         $repositorio = $doctrine->getRepository(Contacto::class);
         $contacto = $repositorio->find($codigo);
 
-        $formulario = $this->formulario($contacto);
+        $formulario = $this->createForm(ContactoType::class, $contacto);
         $formulario->handleRequest($request);
 
         if ($formulario->isSubmitted() && $formulario->isValid()) {
@@ -196,17 +194,17 @@ class ContactController extends AbstractController
         ));
     }
 
-    public function formulario(Contacto $contacto) {
-        return $this->createFormBuilder($contacto)
-            ->add("nombre", TextType::class, array("label" => "Nombre: "))
-            ->add("telefono", TextType::class, array("label" => "Teléfono: "))
-            ->add("email", EmailType::class, array("label" => "Correo electrónico: "))
-            ->add("provincia", EntityType::class, array(
-                "class" => Provincia::class,
-                "choice_label" => "nombre",
-                "label" => "Provincia: "
-            ))
-            ->add("save", SubmitType::class, array("label" => "Enviar"))
-            ->getForm();
-    }
+    // public function formulario(Contacto $contacto) {
+    //     return $this->createFormBuilder($contacto)
+    //         ->add("nombre", TextType::class, array("label" => "Nombre: "))
+    //         ->add("telefono", TextType::class, array("label" => "Teléfono: "))
+    //         ->add("email", EmailType::class, array("label" => "Correo electrónico: "))
+    //         ->add("provincia", EntityType::class, array(
+    //             "class" => Provincia::class,
+    //             "choice_label" => "nombre",
+    //             "label" => "Provincia: "
+    //         ))
+    //         ->add("save", SubmitType::class, array("label" => "Enviar"))
+    //         ->getForm();
+    // }
 }
