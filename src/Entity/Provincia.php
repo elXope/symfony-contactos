@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProvinciaRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProvinciaRepository::class)]
@@ -14,6 +15,7 @@ class Provincia
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"El nombre es obligatorio.")]
     private ?string $nombre = null;
 
     public function getId(): ?int
